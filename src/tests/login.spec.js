@@ -7,31 +7,31 @@ test.describe('LoginPage Testing',()=>{
     test.beforeEach(async({loginPage})=>{
         await loginPage.goto();
     })
-    test(' Input fields should display as the data that was filled',async({loginPage})=>{
+    test('TC01 Input fields should display as the data that was filled',async({loginPage})=>{
         await loginPage.fillUserPassword('standard_user','secret_sauce');
         expect(await loginPage.getUsername()).toBe('standard_user');
         expect(await loginPage.getPassword()).toBe('secret_sauce');
     });
-    test('Should show an error message if log in without a username',async({loginPage})=>{
+    test('TC02 Should show an error message if log in without a username',async({loginPage})=>{
         await loginPage.fillUserPassword('','secret_sauce');
         await loginPage.clickLogin();
         expect(await loginPage.getErrorMessage()).toBe('Epic sadface: Username is required');
         expect(await loginPage.sameUrl()).toBe(true);
     })
-    test('Should show an error message if log in without a password',async({loginPage})=>{
+    test('TC03 Should show an error message if log in without a password',async({loginPage})=>{
         await loginPage.fillUserPassword('standard_user','');
         await loginPage.clickLogin();
         expect(await loginPage.getErrorMessage()).toBe('Epic sadface: Password is required');
         expect(await loginPage.sameUrl()).toBe(true);
     })
-    test('Should show an error message if log in with both fields blank',async({loginPage})=>{
+    test('TC04 Should show an error message if log in with both fields blank',async({loginPage})=>{
         await loginPage.fillUserPassword('standard_user','');
         await loginPage.clickLogin();
         expect(await loginPage.getErrorMessage()).toContain('is required');
         expect(await loginPage.sameUrl()).toBe(true);
     })
     validUser.forEach(({username,password})=>{
-        test(`Should logged in successfully with valid credentials ${username}`,async({loginPage})=>{
+        test(`TC05 Should logged in successfully with valid credentials ${username}`,async({loginPage})=>{
             await loginPage.fillUserPassword(username,password);
             await loginPage.clickLogin();
             expect(await loginPage.getErrorMessage()).not.toContain('is required');
@@ -39,7 +39,7 @@ test.describe('LoginPage Testing',()=>{
         })
     })
     invalidUser.forEach(({username,password})=>{
-        test(`Should logged in fails with an error message when using invalid credentials ${username}`,async({loginPage})=>{
+        test(`TC06 Should logged in fails with an error message when using invalid credentials ${username}`,async({loginPage})=>{
             await loginPage.fillUserPassword(username,password);
             await loginPage.clickLogin();
             expect(await loginPage.getErrorMessage()).toContain('do not match any');
@@ -47,7 +47,7 @@ test.describe('LoginPage Testing',()=>{
         })
     })
     lockedUser.forEach(({username,password})=>{
-        test(`Should logged in fails with an error message when using locked credentials ${username}`,async({loginPage})=>{
+        test(`TC07 Should logged in fails with an error message when using locked credentials ${username}`,async({loginPage})=>{
             await loginPage.fillUserPassword(username,password);
             await loginPage.clickLogin();
             expect(await loginPage.getErrorMessage()).toContain('locked out');

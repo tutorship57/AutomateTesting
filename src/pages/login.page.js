@@ -1,7 +1,6 @@
 import { log, time } from "console"
 import { removeSlashUrl } from "../utils"
 
- removeSlashUrl
 export class LoginPage {
 
     baseUrl = 'https://www.saucedemo.com'

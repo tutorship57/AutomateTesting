@@ -5,7 +5,15 @@ function removeSlashUrl(url= "") {
     }
     return newUrl;
 }
+function convertStringToNumber(str) {
+    return Number(str.replace(/[^0-9]/g, ''));
+}
+function removeDollarsSign(str) {
+    return parseFloat(str.replace('$', '').trim());
+}
 
 module.exports = {
-    removeSlashUrl
+    removeSlashUrl,
+    convertStringToNumber,
+    removeDollarsSign
 }
