@@ -7,9 +7,12 @@ export class ProductPage {
     locatorProductName = '.inventory_item_name'
     locatorShoppingCart = '.shopping_cart_link'
     locatorProductPrice = '.inventory_item_price'
+    locatorShoppingCart = '.shopping_cart_link'
 
     // Product-SORT Attribute
     locatorProductSort = 'select'
+    sortByAtoZ = 'az'
+    sortByZtoA = 'za'
     sortByLowtoHigh = 'lohi'
     sortByHightoLow = 'hilo'
 
@@ -44,11 +47,55 @@ export class ProductPage {
     }
 
     // Product-Sort
+    async selectProductSortAtoZ(){
+        await this.page.locator(this.locatorProductSort).selectOption(this.sortByAtoZ);
+    }
+    async selectProductSortZtoA(){
+        await this.page.locator(this.locatorProductSort).selectOption(this.sortByZtoA);
+    }
     async selectProductSortLowtoHigh(){
         await this.page.locator(this.locatorProductSort).selectOption(this.sortByLowtoHigh);
     }
     async selectProductSortHightoLow(){
         await this.page.locator(this.locatorProductSort).selectOption(this.sortByHightoLow);
+    }
+    
+    // Product-Sort_Check 
+    async isSortedByAtoZ(){
+        let previousName ;
+        let isSorted = true ;
+        for (let i = 0; i < await this.productList.count(); i++) {
+            if(i==0){
+                previousName = await this.productList.nth(i).locator(this.locatorProductName).textContent();
+                continue;
+            }
+            let currentName = await this.productList.nth(i).locator(this.locatorProductName).textContent();
+            console.log("this is previous name :"+previousName);
+            console.log("this is current name :"+currentName);
+            if(currentName<previousName){
+                return false ;
+            }
+            previousName = currentName;
+        }
+        return isSorted;
+    }
+    async isSortedByZtoA(){
+        let previousName ;
+        let isSorted = true ;
+        for (let i = 0; i < await this.productList.count(); i++) {
+            if(i==0){
+                previousName = await this.productList.nth(i).locator(this.locatorProductName).textContent();
+                continue;
+            }
+            let currentName = await this.productList.nth(i).locator(this.locatorProductName).textContent();
+            console.log("this is previous name :"+previousName);
+            console.log("this is current name :"+currentName);
+            if(currentName>previousName){
+                return false ;
+            }
+            previousName = currentName;
+        }
+        return isSorted;
     }
 
     async isSortedByLowtoHigh(){
@@ -88,5 +135,16 @@ export class ProductPage {
             previousPrice = currentPrice;
         }
         return isSorted;
+    }
+
+    //
+    getPageUrl(){
+        console.log(this.page.url());
+        return this.page.url();
+    }
+    async clickProductCart(){
+
+        
+        await this.page.locator(this.locatorShoppingCart).click();   
     }
 }

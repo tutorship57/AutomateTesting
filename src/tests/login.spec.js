@@ -25,7 +25,7 @@ test.describe('LoginPage Testing',()=>{
         expect(await loginPage.sameUrl()).toBe(true);
     })
     test('TC04 Should show an error message if log in with both fields blank',async({loginPage})=>{
-        await loginPage.fillUserPassword('standard_user','');
+        await loginPage.fillUserPassword('','');
         await loginPage.clickLogin();
         expect(await loginPage.getErrorMessage()).toContain('is required');
         expect(await loginPage.sameUrl()).toBe(true);

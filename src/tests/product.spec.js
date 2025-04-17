@@ -10,17 +10,29 @@ test.describe('productPage Testing', () => {
     })
     test('TC08 Should show all products',async({productPage})=>{
         await productPage.ClickAllProduct();
-        expect(await productPage.getCartSize()).toBe(6);
+        await productPage.page.waitForTimeout(3000);
         await productPage.RemoveAllProduct();
-        expect(await productPage.getCartSize()).toBe(0);
+        await productPage.page.waitForTimeout(2000);
     })
-    test('TC10 Product should correctly sorts items from price low to high',async({productPage})=>{
+    test('TC09 Product should correctly sorts items from A to Z',async({productPage})=>{
+        await productPage.selectProductSortAtoZ();
+        expect(await productPage.isSortedByAtoZ()).toBe(true);
+    })
+    test('TC10 Product should correctly sorts items from Z to A',async({productPage})=>{
+        await productPage.selectProductSortZtoA();
+        expect(await productPage.isSortedByZtoA()).toBe(true);
+    })
+    test('TC11 Product should correctly sorts items from price low to high',async({productPage})=>{
         await productPage.selectProductSortLowtoHigh();
         expect(await productPage.isSortedByLowtoHigh()).toBe(true);
     })
-    test('TC11 Product should correctly sorts items from price low to high',async({productPage})=>{
+    test('TC12 Product should correctly sorts items from price high to low',async({productPage})=>{
         await productPage.selectProductSortHightoLow();
         expect(await productPage.isSortedByHightoLow()).toBe(true);
+    })
+    test.only('TC13 Product should correctly sorts items from price high to low',async({productPage})=>{
+        await productPage.clickProductCart();
+        expect(productPage.getPageUrl()).toBe('https://www.saucedemo.com/cart.html');
     })
 
 

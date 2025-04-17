@@ -1,4 +1,3 @@
-import { log, time } from "console"
 import { removeSlashUrl } from "../utils"
 
 export class LoginPage {
